@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // Import Provider
+import 'package:flutter/services.dart'; // Import Services for accessing system brightness
 import 'package:shopping_list_app/colors.dart';
+import 'package:provider/provider.dart';
 import 'package:shopping_list_app/provider/card_provider.dart';
 
 class ItemListCard extends StatefulWidget {
@@ -18,30 +19,48 @@ class ItemListCard extends StatefulWidget {
 }
 
 class _ItemListCardState extends State<ItemListCard> {
+  bool _isChecked = false; // Track the state of the checkbox
+
   @override
   Widget build(BuildContext context) {
+    Brightness platformBrightness = MediaQuery.of(context).platformBrightness;
+    Color cardColor = platformBrightness == Brightness.dark
+        ? kCardDarkBackgroundColor
+        : kCardLightBackgroundColor;
+    Color textColor =
+        platformBrightness == Brightness.dark ? Colors.white : Colors.black;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
         width: double.infinity,
         child: Card(
           elevation: 0,
-          color: Colors.white,
-          child: Container(
-            padding: EdgeInsets.all(16.0),
+          color: cardColor,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
+                Checkbox(
+                  value: _isChecked,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isChecked = newValue ?? false;
+                    });
+                  },
+                ),
+                SizedBox(width: 16.0), // Add some spacing
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "${widget.itemName}",
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, color: textColor),
                     ),
                     Text(
                       "Quantity: ${widget.quantity}",
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, color: textColor),
                     )
                   ],
                 ),
@@ -50,13 +69,13 @@ class _ItemListCardState extends State<ItemListCard> {
                   onPressed: () {
                     _editItem(context);
                   },
-                  icon: Icon(Icons.edit),
+                  icon: Icon(Icons.edit, color: textColor),
                 ),
                 IconButton(
                   onPressed: () {
                     _deleteItem(context);
                   },
-                  icon: Icon(Icons.delete),
+                  icon: Icon(Icons.delete, color: textColor),
                 ),
               ],
             ),
@@ -81,13 +100,11 @@ class _ItemListCardState extends State<ItemListCard> {
               TextField(
                 decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(30.0)), // Grey border with small radius
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     borderSide: BorderSide(color: Colors.grey, width: 3),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                        15.0), // Blue border with larger radius
+                    borderRadius: BorderRadius.circular(15.0),
                     borderSide: const BorderSide(color: kVioletColor, width: 3),
                   ),
                   hintText: "Edit Name",
@@ -102,13 +119,11 @@ class _ItemListCardState extends State<ItemListCard> {
               TextField(
                 decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(30.0)), // Grey border with small radius
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
                     borderSide: BorderSide(color: Colors.grey, width: 3),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                        15.0), // Blue border with larger radius
+                    borderRadius: BorderRadius.circular(15.0),
                     borderSide: const BorderSide(color: kVioletColor, width: 3),
                   ),
                   hintText: "Edit Quantity",
@@ -128,21 +143,25 @@ class _ItemListCardState extends State<ItemListCard> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(kVioletColor)),
+                backgroundColor: MaterialStateProperty.all(kVioletColor),
+              ),
               onPressed: () {
-                // Access CardProvider to update the item
-
                 final cardProvider =
                     Provider.of<CardProvider>(context, listen: false);
 
-                int indexToUpdate = cardProvider.items.indexWhere((item) =>
-                    item.itemName == widget.itemName &&
-                    item.quantity == widget.quantity);
+                int indexToUpdate = cardProvider.items.indexWhere(
+                  (item) =>
+                      item.itemName == widget.itemName &&
+                      item.quantity == widget.quantity,
+                );
 
                 if (indexToUpdate != -1) {
                   // Update the item
                   cardProvider.editItem(
-                      indexToUpdate, updatedItemName, updatedQuantity);
+                    indexToUpdate,
+                    updatedItemName,
+                    updatedQuantity,
+                  );
                   Navigator.of(context).pop(); // Close the dialog
                   updatedItemName = ''; // Reset item name
                   updatedQuantity = '';
@@ -162,8 +181,10 @@ class _ItemListCardState extends State<ItemListCard> {
   void _deleteItem(BuildContext context) {
     final cardProvider = Provider.of<CardProvider>(context, listen: false);
 
-    int indexToDelete = cardProvider.items.indexWhere((item) =>
-        item.itemName == widget.itemName && item.quantity == widget.quantity);
+    int indexToDelete = cardProvider.items.indexWhere(
+      (item) =>
+          item.itemName == widget.itemName && item.quantity == widget.quantity,
+    );
 
     if (indexToDelete != -1) {
       cardProvider.deleteItem(indexToDelete);

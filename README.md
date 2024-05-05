@@ -3,4 +3,3 @@ Soochi is a mobile application built with Flutter for Android and iOS that helps
 
 Built using:
 - Flutter
-- Node.js

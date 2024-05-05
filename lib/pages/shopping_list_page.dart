@@ -1,45 +1,31 @@
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_list_app/colors.dart';
-import 'package:shopping_list_app/pages/login_page.dart';
-import 'package:shopping_list_app/pages/signup_page.dart';
 import 'package:shopping_list_app/provider/card_provider.dart';
 import 'package:shopping_list_app/widgets/item_list_card.dart';
 
 class ShoppingListPage extends StatelessWidget {
-  const ShoppingListPage({super.key});
+  const ShoppingListPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
     TextEditingController itemNameController = TextEditingController();
     TextEditingController itemQuantityController = TextEditingController();
 
+    Brightness platformBrightness = MediaQuery.of(context).platformBrightness;
+    Color scaffoldBackgroundColor = platformBrightness == Brightness.dark
+        ? kAppDarkBackgroundColor
+        : kAppLightBackgroundColor;
+
     return Scaffold(
-      backgroundColor: kAppBackgroundColor,
+      backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
+        backgroundColor: scaffoldBackgroundColor,
         automaticallyImplyLeading: false,
-        backgroundColor: kAppBackgroundColor,
         title: const Text(
-          'Shopping List',
+          'Soochi',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        actions: [
-          PopupMenuButton<int>(
-              icon: const Icon(Icons.more_vert),
-              onSelected: (item) => onMenuItemSelected(
-                  context, item), // Pass context to handle navigation
-              itemBuilder: (context) => [
-                    const PopupMenuItem<int>(
-                      value: 1,
-                      child: Text('Login'),
-                    ),
-                    const PopupMenuItem<int>(
-                      value: 2,
-                      child: Text('Settings'),
-                    ),
-                  ])
-        ],
       ),
       body: Consumer<CardProvider>(
         builder: (context, cardProvider, child) {
@@ -70,102 +56,82 @@ class ShoppingListPage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+}
 
-  void _showAddItemDialog(
-    BuildContext context,
-    TextEditingController itemNameController,
-    TextEditingController itemQuantityController,
-  ) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Add Item'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: itemNameController,
-                decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(30.0)), // Grey border with small radius
-                    borderSide: BorderSide(color: Colors.grey, width: 3),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                        15.0), // Blue border with larger radius
-                    borderSide: const BorderSide(color: kVioletColor, width: 3),
-                  ),
-                  hintText: "Enter item name",
+void _showAddItemDialog(
+  BuildContext context,
+  TextEditingController itemNameController,
+  TextEditingController itemQuantityController,
+) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Add Item'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: itemNameController,
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  borderSide: BorderSide(color: Colors.grey, width: 3),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              TextField(
-                controller: itemQuantityController,
-                decoration: InputDecoration(
-                  enabledBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(30.0)), // Grey border with small radius
-                    borderSide: BorderSide(color: Colors.grey, width: 3),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                        15.0), // Blue border with larger radius
-                    borderSide: const BorderSide(color: kVioletColor, width: 3),
-                  ),
-                  hintText: "Enter quantity",
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: const BorderSide(color: kVioletColor, width: 3),
                 ),
+                hintText: "Enter item name",
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
             ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(kVioletColor)),
-              onPressed: () {
-                final itemName = itemNameController.text;
-                final itemQuantity = itemQuantityController.text;
-                if (itemName.isNotEmpty && itemQuantity.isNotEmpty) {
-                  Provider.of<CardProvider>(context, listen: false)
-                      .addItem(itemName, itemQuantity);
-                }
-                itemNameController.clear();
-                itemQuantityController.clear();
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                'Add',
-                style: TextStyle(color: Colors.white),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+              controller: itemQuantityController,
+              decoration: InputDecoration(
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  borderSide: BorderSide(color: Colors.grey, width: 3),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: const BorderSide(color: kVioletColor, width: 3),
+                ),
+                hintText: "Enter quantity",
               ),
             ),
           ],
-        );
-      },
-    );
-  }
-
-  void onMenuItemSelected(BuildContext context, int item) {
-    switch (item) {
-      case 1:
-        // Navigate to the LoginPage
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
-        );
-        break;
-      case 2:
-        // Handle Settings menu item
-        break;
-      default:
-    }
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(kVioletColor)),
+            onPressed: () {
+              final itemName = itemNameController.text;
+              final itemQuantity = itemQuantityController.text;
+              if (itemName.isNotEmpty && itemQuantity.isNotEmpty) {
+                Provider.of<CardProvider>(context, listen: false)
+                    .addItem(itemName, itemQuantity);
+              }
+              itemNameController.clear();
+              itemQuantityController.clear();
+              Navigator.of(context).pop();
+            },
+            child: const Text(
+              'Add',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }

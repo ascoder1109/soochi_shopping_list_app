@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "174324416731",
+    "project_id": "soochi-b7f67",
+    "storage_bucket": "soochi-b7f67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174324416731:android:ec3efcfe02df8fdf9cccfe",
+        "android_client_info": {
+          "package_name": "com.example.shopping_list_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCS9YqL5xjx1dR0bGyj5T4Kz2F8peyDcc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
