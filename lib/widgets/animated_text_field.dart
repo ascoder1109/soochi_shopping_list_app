@@ -4,14 +4,18 @@ import 'package:shopping_list_app/colors.dart';
 class AnimatedTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
+  final Color textColor;
 
   const AnimatedTextField(
-      {Key? key, required this.hint, required this.controller})
-      : super(key: key);
+      {super.key,
+      required this.hint,
+      required this.controller,
+      required this.textColor});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(color: textColor),
       controller: controller,
       decoration: InputDecoration(
         enabledBorder: const OutlineInputBorder(
