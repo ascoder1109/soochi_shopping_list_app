@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopping_list_app/colors.dart';
+import 'package:shopping_list_app/pages/login_page.dart';
 import 'package:shopping_list_app/provider/card_provider.dart';
+import 'package:shopping_list_app/services/auth_service.dart';
 import 'package:shopping_list_app/widgets/item_list_card.dart';
 
 class ShoppingListPage extends StatelessWidget {
@@ -26,6 +28,42 @@ class ShoppingListPage extends StatelessWidget {
           'Soochi',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert), // Three-dot icon
+            itemBuilder: (BuildContext context) {
+              return [
+                const PopupMenuItem(
+                  value: 'sign_out',
+                  child: Text('Sign Out'),
+                ),
+
+                // Add more PopupMenuItems as needed
+              ];
+            },
+
+            onSelected: (value) {
+              // Handle menu item selection
+              switch (value) {
+                case 'sign_out':
+                  signOutUser();
+                  Navigator.push(
+                      // ignore: use_build_context_synchronously
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('User Logged-Out Successfully'),
+                      duration:
+                          Duration(seconds: 2), // Adjust the duration as needed
+                    ),
+                  );
+                  break;
+              }
+            },
+          )
+        ],
       ),
       body: Consumer<CardProvider>(
         builder: (context, cardProvider, child) {
@@ -55,6 +93,15 @@ class ShoppingListPage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+}
+
+Future<void> signOutUser() async {
+  final _auth = AuthService();
+  try {
+    await _auth.signOut();
+  } catch (e) {
+    print("Something went wrong");
   }
 }
 
