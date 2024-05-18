@@ -21,4 +21,9 @@ class ItemListModel extends ChangeNotifier {
     _items.remove(item);
     notifyListeners();
   }
+
+  void editItem(int index, ItemModel newItem) {
+    _items[index] = newItem;
+    notifyListeners();
+  }
 }

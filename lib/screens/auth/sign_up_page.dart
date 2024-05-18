@@ -39,7 +39,7 @@ class _SignUpPageState extends State<SignUpPage> {
       statusBarBrightness: Brightness.dark,
     ));
     return Scaffold(
-      backgroundColor: kAppWhiteColor,
+      // backgroundColor: kAppWhiteColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 64,
                 ),
                 TextField(
-                  style: const TextStyle(color: Colors.black),
+                  // style: const TextStyle(color: Colors.black),
                   controller: emailController,
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
@@ -90,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 8,
                 ),
                 TextField(
-                  style: const TextStyle(color: Colors.black),
+                  // style: const TextStyle(color: Colors.black),
                   controller: passwordController,
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
@@ -112,7 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   height: 8,
                 ),
                 TextField(
-                  style: const TextStyle(color: Colors.black),
+                  // style: const TextStyle(color: Colors.black),
                   controller: confirmPasswordController,
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(

@@ -1,48 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:soochi/colors.dart';
 import 'package:soochi/models/item_model.dart';
 
 class ItemListCard extends StatelessWidget {
   final ItemModel item;
   final Function(bool) onCheckboxChanged;
-  final Function(bool) onCheckboxStateChanged;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
   const ItemListCard({
     Key? key,
     required this.item,
     required this.onCheckboxChanged,
-    required this.onCheckboxStateChanged,
     required this.onDelete,
+    required this.onEdit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color.fromARGB(24, 0, 0, 0),
-            width: 1.0,
-          ),
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
         ),
         width: double.infinity,
         child: Card(
-          elevation: 0,
-          color: Colors.white,
+          color: theme.cardColor,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Checkbox(
-                  value: item.isChecked,
-                  onChanged: (value) {
-                    onCheckboxChanged(value ?? false);
-                    // No need to call onCheckboxStateChanged here
-                  },
+                CheckboxTheme(
+                  data: CheckboxThemeData(
+                    fillColor: MaterialStateColor.resolveWith((states) {
+                      if (states.contains(MaterialState.selected)) {
+                        return kVioletColor;
+                      }
+                      if (theme.brightness == Brightness.light) {
+                        return kAppBlackColor;
+                      } else {
+                        return Colors.white;
+                      }
+                    }),
+                  ),
+                  child: Checkbox(
+                    value: item.isChecked,
+                    onChanged: (value) {
+                      onCheckboxChanged(value ?? false);
+                    },
+                  ),
                 ),
-                SizedBox(width: 16.0), // Add some spacing
+                SizedBox(width: 16.0),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -50,13 +61,13 @@ class ItemListCard extends StatelessWidget {
                     children: [
                       Text(
                         item.name,
-                        style: TextStyle(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: 20,
                         ),
                       ),
                       Text(
                         "Quantity: ${item.quantity}",
-                        style: TextStyle(
+                        style: theme.textTheme.bodyLarge!.copyWith(
                           fontSize: 20,
                         ),
                       )
@@ -64,10 +75,17 @@ class ItemListCard extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: onDelete, // Call onDelete when pressed
+                  onPressed: onEdit,
+                  icon: Icon(
+                    Icons.edit,
+                    color: theme.iconTheme.color,
+                  ),
+                ),
+                IconButton(
+                  onPressed: onDelete,
                   icon: Icon(
                     Icons.delete,
-                    color: Colors.red, // Optionally change the color
+                    color: theme.iconTheme.color,
                   ),
                 ),
               ],

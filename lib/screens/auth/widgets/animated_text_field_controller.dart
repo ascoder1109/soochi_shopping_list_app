@@ -4,18 +4,16 @@ import 'package:soochi/colors.dart';
 class AnimatedTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
-  final Color textColor;
 
-  const AnimatedTextField(
-      {super.key,
-      required this.hint,
-      required this.controller,
-      required this.textColor});
+  const AnimatedTextField({
+    super.key,
+    required this.hint,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: TextStyle(color: textColor),
       controller: controller,
       decoration: InputDecoration(
         enabledBorder: const OutlineInputBorder(

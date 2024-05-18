@@ -30,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kAppWhiteColor,
+      // backgroundColor: kAppWhiteColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
@@ -60,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
                   height: 64,
                 ),
                 TextField(
-                  style: const TextStyle(color: Colors.black),
                   controller: emailController,
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
@@ -80,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
                   height: 8,
                 ),
                 TextField(
-                  style: const TextStyle(color: Colors.black),
                   controller: passwordController,
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(

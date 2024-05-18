@@ -13,45 +13,58 @@ class ShoppingListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: kAppWhiteColor,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      // backgroundColor: kAppWhiteColor,
       appBar: AppBar(
-        backgroundColor: kAppWhiteColor,
+        // backgroundColor: kAppWhiteColor,
         // automaticallyImplyLeading: false,
-        title: const Text(
+        title: Text(
           "Soochi",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: theme.iconTheme.color),
         ),
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text("Log-Out"),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                  barrierDismissible: false,
-                );
-                signOutUser();
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
-                ));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('You have successfully logged out!'),
-                    duration: Duration(seconds: 2), // Adjust duration as needed
-                  ),
-                );
-              },
-            ),
-          ],
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: ListView(
+            children: [
+              ListTile(
+                leading: Icon(
+                  Icons.logout,
+                  color: theme.iconTheme.color,
+                ),
+                title: Text(
+                  "Log-Out",
+                  style: TextStyle(color: theme.iconTheme.color),
+                ),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    barrierDismissible: false,
+                  );
+                  signOutUser();
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const LoginPage(),
+                  ));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('You have successfully logged out!'),
+                      duration:
+                          Duration(seconds: 2), // Adjust duration as needed
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -75,7 +88,9 @@ class ShoppingListPage extends StatelessWidget {
                     int index = itemListModel.items.indexOf(item);
                     itemListModel.toggleItem(index);
                   },
-                  onCheckboxStateChanged: (value) {},
+                  onEdit: () {
+                    _showEditItemDialog(context, item);
+                  },
                   onDelete: () {
                     Provider.of<ItemListModel>(context, listen: false)
                         .deleteItem(item);
@@ -102,7 +117,7 @@ class ShoppingListPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
-                style: const TextStyle(color: Colors.black),
+                // style: const TextStyle(color: Colors.black),
                 controller: itemNameController,
                 decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
@@ -120,7 +135,7 @@ class ShoppingListPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
-                style: const TextStyle(color: Colors.black),
+                // style: const TextStyle(color: Colors.black),
                 controller: itemQuantityController,
                 decoration: InputDecoration(
                   enabledBorder: const OutlineInputBorder(
@@ -152,6 +167,82 @@ class ShoppingListPage extends StatelessWidget {
                 Navigator.of(context).pop();
               },
               child: const Text('Add Item'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showEditItemDialog(BuildContext context, ItemModel item) {
+    TextEditingController itemNameController =
+        TextEditingController(text: item.name);
+    TextEditingController itemQuantityController =
+        TextEditingController(text: item.quantity);
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit Item'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                // style: const TextStyle(color: Colors.black),
+                controller: itemNameController,
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.grey, width: 3),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: const BorderSide(color: kVioletColor, width: 3),
+                  ),
+                  hintText: "Enter Item Name",
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                // style: const TextStyle(color: Colors.black),
+                controller: itemQuantityController,
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.grey, width: 3),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: const BorderSide(color: kVioletColor, width: 3),
+                  ),
+                  hintText: "Enter Quantity",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                ItemModel editedItem = ItemModel(
+                  name: itemNameController.text,
+                  quantity: itemQuantityController.text,
+                );
+
+                Provider.of<ItemListModel>(context, listen: false).editItem(
+                  Provider.of<ItemListModel>(context, listen: false)
+                      .items
+                      .indexOf(item),
+                  editedItem,
+                );
+
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save Changes'),
             ),
           ],
         );
