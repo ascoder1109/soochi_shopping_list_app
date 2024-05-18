@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "485729663699",
+    "project_id": "soochi-ee23e",
+    "storage_bucket": "soochi-ee23e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485729663699:android:77a76e214d6e6ab42df226",
+        "android_client_info": {
+          "package_name": "com.example.soochi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHbGeSggLXI2Zuz9SWkeh99UtuY8sQY20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
