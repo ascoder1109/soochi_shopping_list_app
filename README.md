@@ -15,6 +15,9 @@ Soochi is a sleek and intuitive Flutter app designed with Provider State Managem
 
 - User Sign In / Out: Securely sign in to your account to access your personalized shopping lists, and sign out when you're done to protect your privacy.
 
+### Download Link:
+https://github.com/ascoder1109/soochi_shopping_list_app/releases/download/main_v0_3/soochi.apk
+
 ### Built Using:
 <img src = "assets\images\flutter_logo.svg" alt="Flutter" width=100>
 <img src = "assets\images\768px-Firebase_Logo.svg.png" alt="Flutter" width=100>
