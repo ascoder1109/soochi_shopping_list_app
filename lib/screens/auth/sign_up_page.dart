@@ -34,137 +34,124 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      // statusBarColor: kAppWhiteColor, statusBarBrightness: Brightness.dark)
-      statusBarColor: Colors.transparent, // Transparent status bar
+      statusBarColor: Colors.transparent,
       statusBarBrightness: Brightness.dark,
     ));
     return Scaffold(
-      // backgroundColor: kAppWhiteColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 32,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 32,
+              ),
+              const Text(
+                " Hello There 👋",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+              ),
+              const SizedBox(
+                height: 64,
+              ),
+              const Center(
+                child: Image(
+                  image: Svg('assets/images/shopping.svg'),
+                  width: 300,
+                  height: 300,
                 ),
-                const Text(
-                  " Hello There 👋",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-                ),
-                const SizedBox(
-                  height: 64,
-                ),
-                const Center(
-                  child: Image(
-                    image: Svg('assets/images/shopping.svg'),
-                    width: 300,
-                    height: 300,
+              ),
+              const SizedBox(
+                height: 64,
+              ),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.grey, width: 3),
                   ),
-                ),
-                const SizedBox(
-                  height: 64,
-                ),
-                TextField(
-                  // style: const TextStyle(color: Colors.black),
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.grey, width: 3),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide:
-                          const BorderSide(color: kVioletColor, width: 3),
-                    ),
-                    hintText: "Enter your email",
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: const BorderSide(color: kVioletColor, width: 3),
                   ),
+                  hintText: "Enter your email",
                 ),
-                const SizedBox(
-                  height: 8,
-                ),
-                TextField(
-                  // style: const TextStyle(color: Colors.black),
-                  controller: passwordController,
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.grey, width: 3),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide:
-                          const BorderSide(color: kVioletColor, width: 3),
-                    ),
-                    hintText: "Enter your password",
+                    borderSide: BorderSide(color: Colors.grey, width: 3),
                   ),
-                  obscureText: true,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                TextField(
-                  // style: const TextStyle(color: Colors.black),
-                  controller: confirmPasswordController,
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(30.0),
-                      ),
-                      borderSide: BorderSide(color: Colors.grey, width: 3),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide:
-                          const BorderSide(color: kVioletColor, width: 3),
-                    ),
-                    hintText: "Re-enter your password",
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: const BorderSide(color: kVioletColor, width: 3),
                   ),
-                  obscureText: true,
+                  hintText: "Enter your password",
                 ),
-                const SizedBox(height: 32),
-                SizedBox(
-                  width: double.infinity,
-                  height: 40,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(kVioletColor),
-                        foregroundColor:
-                            MaterialStateProperty.all(kAppWhiteColor)),
-                    onPressed: () {
-                      _signUp();
-                    },
-                    child: const Text('Sign-Up'),
+                obscureText: true,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              TextField(
+                controller: confirmPasswordController,
+                decoration: InputDecoration(
+                  enabledBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    ),
+                    borderSide: BorderSide(color: Colors.grey, width: 3),
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: const BorderSide(color: kVioletColor, width: 3),
+                  ),
+                  hintText: "Re-enter your password",
                 ),
-                const SizedBox(
-                  height: 32,
+                obscureText: true,
+              ),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(kVioletColor),
+                    foregroundColor: MaterialStateProperty.all(kAppWhiteColor),
+                  ),
+                  onPressed: _signUp,
+                  child: const Text('Sign-Up'),
                 ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ));
-                    },
-                    child: const Text(
-                      "Already a user? Tap here to log in!",
-                      style: TextStyle(
-                          color: kVioletColor, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 32),
+              Center(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ));
+                  },
+                  child: const Text(
+                    "Already a user? Tap here to log in!",
+                    style: TextStyle(
+                      color: kVioletColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

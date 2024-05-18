@@ -28,35 +28,40 @@ class MyApp extends StatelessWidget {
           create: (_) => ThemeChanger(),
         ),
       ],
-      child: Consumer<ThemeChanger>(
-        builder: (context, themeChanger, _) {
-          return MaterialApp(
-            home: const LoginPage(),
-            theme: ThemeData.light().copyWith(
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                primary: kVioletColor,
-                background: kAppWhiteColor,
-                brightness: Brightness.light,
-              ),
-              appBarTheme: AppBarTheme(
-                backgroundColor: kAppWhiteColor, // Light mode app bar color
-              ),
-              scaffoldBackgroundColor:
-                  Colors.white, // Light mode scaffold color
-            ),
-            darkTheme: ThemeData.dark().copyWith(
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                primary: kVioletColor,
-                background: kAppBlackColor,
-                brightness: Brightness.dark,
-              ),
-              appBarTheme: AppBarTheme(
-                backgroundColor: kAppBlackColor, // Dark mode app bar color
-                foregroundColor: kAppWhiteColor,
-              ),
-              scaffoldBackgroundColor: Colors.black, // Dark mode scaffold color
-            ),
-            themeMode: themeChanger.themeMode,
+      child: Builder(
+        builder: (context) {
+          return Consumer<ThemeChanger>(
+            builder: (context, themeChanger, _) {
+              return MaterialApp(
+                home: const LoginPage(),
+                theme: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.fromSwatch().copyWith(
+                    primary: kVioletColor,
+                    background: kAppWhiteColor,
+                    brightness: Brightness.light,
+                  ),
+                  appBarTheme: AppBarTheme(
+                    backgroundColor: kAppWhiteColor, // Light mode app bar color
+                  ),
+                  scaffoldBackgroundColor:
+                      Colors.white, // Light mode scaffold color
+                ),
+                darkTheme: ThemeData.dark().copyWith(
+                  colorScheme: ColorScheme.fromSwatch().copyWith(
+                    primary: kVioletColor,
+                    background: kAppBlackColor,
+                    brightness: Brightness.dark,
+                  ),
+                  appBarTheme: AppBarTheme(
+                    backgroundColor: kAppBlackColor, // Dark mode app bar color
+                    foregroundColor: kAppWhiteColor,
+                  ),
+                  scaffoldBackgroundColor:
+                      Colors.black, // Dark mode scaffold color
+                ),
+                themeMode: themeChanger.themeMode,
+              );
+            },
           );
         },
       ),

@@ -17,25 +17,23 @@ class _LoginPageState extends State<LoginPage> {
   final FirebaseAuthService _auth = FirebaseAuthService();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  // TextEditingController confirmPasswordController = TextEditingController();
 
+  @override
   void dispose() {
-    // TODO: implement dispose
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: kAppWhiteColor,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Expanded(
+          child: Container(
+            // Wrap the Column with a Container
+            width: double.infinity, // Make it expand horizontally
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -108,9 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                             MaterialStateProperty.all(kVioletColor),
                         foregroundColor:
                             MaterialStateProperty.all(kAppWhiteColor)),
-                    onPressed: () {
-                      _logIn();
-                    },
+                    onPressed: _logIn,
                     child: Text('Log-In'),
                   ),
                 ),

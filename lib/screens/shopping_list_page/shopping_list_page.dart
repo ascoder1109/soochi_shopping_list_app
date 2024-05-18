@@ -1,3 +1,4 @@
+import 'package:double_tap_to_exit/double_tap_to_exit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,92 +15,94 @@ class ShoppingListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Scaffold(
-      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-      // backgroundColor: kAppWhiteColor,
-      appBar: AppBar(
+    return DoubleTapToExit(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         // backgroundColor: kAppWhiteColor,
-        // automaticallyImplyLeading: false,
-        title: Text(
-          "Soochi",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: theme.iconTheme.color),
-        ),
-      ),
-      drawer: Drawer(
-        child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: ListView(
-            children: [
-              ListTile(
-                leading: Icon(
-                  Icons.logout,
-                  color: theme.iconTheme.color,
-                ),
-                title: Text(
-                  "Log-Out",
-                  style: TextStyle(color: theme.iconTheme.color),
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                    barrierDismissible: false,
-                  );
-                  signOutUser();
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('You have successfully logged out!'),
-                      duration:
-                          Duration(seconds: 2), // Adjust duration as needed
-                    ),
-                  );
-                },
-              ),
-            ],
+        appBar: AppBar(
+          // backgroundColor: kAppWhiteColor,
+          // automaticallyImplyLeading: false,
+          title: Text(
+            "Soochi",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: theme.iconTheme.color),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddItemDialog(context);
-        },
-        backgroundColor: kVioletColor,
-        foregroundColor: kAppWhiteColor,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add),
-      ),
-      body: Consumer<ItemListModel>(
-        builder: (context, itemListModel, _) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: itemListModel.items.map((item) {
-                return ItemListCard(
-                  item: item,
-                  onCheckboxChanged: (value) {
-                    int index = itemListModel.items.indexOf(item);
-                    itemListModel.toggleItem(index);
+        drawer: Drawer(
+          child: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    color: theme.iconTheme.color,
+                  ),
+                  title: Text(
+                    "Log-Out",
+                    style: TextStyle(color: theme.iconTheme.color),
+                  ),
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                      barrierDismissible: false,
+                    );
+                    signOutUser();
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('You have successfully logged out!'),
+                        duration:
+                            Duration(seconds: 2), // Adjust duration as needed
+                      ),
+                    );
                   },
-                  onEdit: () {
-                    _showEditItemDialog(context, item);
-                  },
-                  onDelete: () {
-                    Provider.of<ItemListModel>(context, listen: false)
-                        .deleteItem(item);
-                  },
-                );
-              }).toList(),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _showAddItemDialog(context);
+          },
+          backgroundColor: kVioletColor,
+          foregroundColor: kAppWhiteColor,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add),
+        ),
+        body: Consumer<ItemListModel>(
+          builder: (context, itemListModel, _) {
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: itemListModel.items.map((item) {
+                  return ItemListCard(
+                    item: item,
+                    onCheckboxChanged: (value) {
+                      int index = itemListModel.items.indexOf(item);
+                      itemListModel.toggleItem(index);
+                    },
+                    onEdit: () {
+                      _showEditItemDialog(context, item);
+                    },
+                    onDelete: () {
+                      Provider.of<ItemListModel>(context, listen: false)
+                          .deleteItem(item);
+                    },
+                  );
+                }).toList(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
