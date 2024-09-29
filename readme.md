@@ -1,6 +1,6 @@
 # Soochi - Your Shopping Saathi
 
-Soochi is a sleek and intuitive Flutter app designed with Provider State Management and Springboot to simplify your shopping experience. With Soochi, you can easily create, manage, and organize your shopping lists, ensuring that you never forget an item again!
+Soochi is a sleek and intuitive Flutter app designed with Springboot and MySQL to simplify your shopping experience. With Soochi, you can easily create, manage, and organize your shopping lists, ensuring that you never forget an item again!
 
 ### Features:
 - Light and Dark Mode: Seamlessly switch between light and dark themes to suit your preference and reduce eye strain in low-light conditions.
